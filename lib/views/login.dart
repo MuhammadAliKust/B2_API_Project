@@ -29,11 +29,15 @@ class LoginView extends StatelessWidget {
                   AuthServices()
                       .loginUser(
                           email: emailController.text, pwd: pwdController.text)
-                      .then((val) {
-                    if (val.user != null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(val.user!.name.toString())));
-                    }else{
+                      .then((loginResponse) async {
+                    if (loginResponse.user != null) {
+                      await AuthServices()
+                          .getUserData(loginResponse.token.toString())
+                          .then((userModel) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(userModel.user!.name.toString())));
+                      });
+                    } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Email or pwd is invalid.")));
                     }

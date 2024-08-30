@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:b2_api/providers/user_provider.dart';
 import 'package:b2_api/services/auth.dart';
+import 'package:b2_api/views/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginView extends StatelessWidget {
   LoginView({super.key});
@@ -11,6 +14,7 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("LOgin"),
@@ -34,8 +38,11 @@ class LoginView extends StatelessWidget {
                       await AuthServices()
                           .getUserData(loginResponse.token.toString())
                           .then((userModel) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(userModel.user!.name.toString())));
+                        userProvider.setUser(userModel);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileView()));
                       });
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(

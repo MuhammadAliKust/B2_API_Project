@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:b2_api/models/login_response.dart';
-import 'package:b2_api/models/user.dart';
+import 'package:b2_api/models/user.dart' as MyUser;
 import 'package:http/http.dart' as http;
+
+import '../models/login_response.dart';
 
 class AuthServices {
   ///Login
@@ -23,21 +24,21 @@ class AuthServices {
 
   ///Register
   ///Get User Data
-  Future<UserModel> getUserData(String token) async {
+  Future<MyUser.UserModel> getUserData(String token) async {
     http.Response response = await http.get(
       Uri.parse("https://todo-nu-plum-19.vercel.app/users/profile"),
       headers: {'Authorization': token},
     );
     log("Get User API");
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return UserModel.fromJson(jsonDecode(response.body));
+      return MyUser.UserModel.fromJson(jsonDecode(response.body));
     } else {
-      return UserModel();
+      return MyUser.UserModel();
     }
   }
 
   ///Update Profile
-  Future<UserModel> updateProfile(
+  Future<MyUser.UserModel> updateProfile(
       {required String token, required String name}) async {
     http.Response response = await http.put(
         Uri.parse("https://todo-nu-plum-19.vercel.app/users/profile"),
@@ -46,10 +47,13 @@ class AuthServices {
     log("Get User API");
     log(response.statusCode.toString());
     if (response.statusCode == 200 || response.statusCode == 201) {
-      return UserModel();
-      // return UserModel.fromJson(jsonDecode(response.body));
+      // return UserModel();
+      log(jsonDecode(response.body)['updatedUser'].toString());
+      return MyUser.UserModel(
+          status: true,
+          user: MyUser.User.fromJson(jsonDecode(response.body)['updatedUser']));
     } else {
-      return UserModel();
+      return MyUser.UserModel();
     }
   }
 }

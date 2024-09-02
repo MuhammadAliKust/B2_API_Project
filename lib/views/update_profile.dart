@@ -27,6 +27,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
   @override
   Widget build(BuildContext context) {
     var tokenProvider = Provider.of<TokenProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Update Profile"),
@@ -39,9 +40,15 @@ class _UpdateProfileState extends State<UpdateProfile> {
           ElevatedButton(
               onPressed: () async {
                 try {
-                  await AuthServices().updateProfile(
-                      token: tokenProvider.getToken().toString(),
-                      name: nameController.text);
+                  await AuthServices()
+                      .updateProfile(
+                          token: tokenProvider.getToken().toString(),
+                          name: nameController.text)
+                      .then((val) {
+                    userProvider.setUser(val);
+                    Navigator.pop(context);
+                    log(val.toJson().toString());
+                  });
                 } catch (e) {
                   log(e.toString());
                 }

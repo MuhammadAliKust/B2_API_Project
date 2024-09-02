@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:b2_api/providers/token_provider.dart';
 import 'package:b2_api/providers/user_provider.dart';
 import 'package:b2_api/services/auth.dart';
 import 'package:b2_api/views/profile.dart';
@@ -15,6 +16,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context);
+    var tokenProvider = Provider.of<TokenProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("LOgin"),
@@ -34,6 +36,7 @@ class LoginView extends StatelessWidget {
                       .loginUser(
                           email: emailController.text, pwd: pwdController.text)
                       .then((loginResponse) async {
+                    tokenProvider.saveToken(loginResponse.token.toString());
                     if (loginResponse.user != null) {
                       await AuthServices()
                           .getUserData(loginResponse.token.toString())

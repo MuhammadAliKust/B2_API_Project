@@ -37,4 +37,19 @@ class AuthServices {
   }
 
   ///Update Profile
+  Future<UserModel> updateProfile(
+      {required String token, required String name}) async {
+    http.Response response = await http.put(
+        Uri.parse("https://todo-nu-plum-19.vercel.app/users/profile"),
+        headers: {'Authorization': token, 'Content-Type': 'application/json'},
+        body: jsonEncode({'name': name}));
+    log("Get User API");
+    log(response.statusCode.toString());
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return UserModel();
+      // return UserModel.fromJson(jsonDecode(response.body));
+    } else {
+      return UserModel();
+    }
+  }
 }

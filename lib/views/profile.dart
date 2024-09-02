@@ -1,5 +1,6 @@
 import 'package:b2_api/providers/user_provider.dart';
 import 'package:b2_api/views/create_task.dart';
+import 'package:b2_api/views/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,9 +16,9 @@ class ProfileView extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>CreateTaskView()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>UpdateProfile()));
         },
-        child: Icon(Icons.add),
+        child: Icon(Icons.edit),
       ),
       body: Text(
         userProvider.getUserData()!.user!.name.toString(),

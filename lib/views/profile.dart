@@ -1,5 +1,6 @@
 import 'package:b2_api/providers/user_provider.dart';
 import 'package:b2_api/views/create_task.dart';
+import 'package:b2_api/views/get_all_task.dart';
 import 'package:b2_api/views/update_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +21,11 @@ class ProfileView extends StatelessWidget {
         },
         child: Icon(Icons.edit),
       ),
-      body: Text(
-        userProvider.getUserData()!.user!.name.toString(),
-        style: TextStyle(fontSize: 30),
+      body: ElevatedButton(
+        onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>GetAllTaskView()));
+        },
+        child: Text("Get All Task"),
       ),
     );
   }

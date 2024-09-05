@@ -61,10 +61,8 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                             taskID: widget.model.id.toString(),
                             description: controller.text)
                         .then((val) {
-                          isLoading = false;
-                          setState(() {
-
-                          });
+                      isLoading = false;
+                      setState(() {});
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text(val.toString())));
                     });

@@ -1,6 +1,7 @@
 import 'package:b2_api/models/task.dart';
 import 'package:b2_api/providers/token_provider.dart';
 import 'package:b2_api/services/task.dart';
+import 'package:b2_api/views/create_task.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -28,6 +29,17 @@ class GetAllTaskView extends StatelessWidget {
                     itemBuilder: (context, i) {
                       return ListTile(
                         title: Text(taskModel.tasks![i].description.toString()),
+                        trailing: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreateTaskView(
+                                        model: taskModel.tasks![i],
+                                        isUpdateMode: true)));
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
                       );
                     });
           },
